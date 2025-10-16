@@ -10,12 +10,15 @@ import ChatScreen from './components/ChatScreen'
 import CommandsHelp from './components/CommandsHelp'
 import LocationChannels from './components/LocationChannels'
 import NetworkPeople from './components/NetworkPeople'
+import Toast from './components/Toast'
+import { useToast } from './hooks/useToast'
 
 function App() {
   const [currentStep, setCurrentStep] = useState(0)
   const [showCommands, setShowCommands] = useState(false)
   const [showChannels, setShowChannels] = useState(false)
   const [showNetwork, setShowNetwork] = useState(false)
+  const { toasts, showToast, hideToast } = useToast()
 
   const steps = [
     { component: WelcomeScreen, name: 'welcome' },
@@ -56,13 +59,24 @@ function App() {
             onOpenCommands={() => setShowCommands(true)}
             onOpenChannels={() => setShowChannels(true)}
             onOpenNetwork={() => setShowNetwork(true)}
+            showToast={showToast}
           />
         </main>
       </div>
 
       {showCommands && <CommandsHelp onClose={() => setShowCommands(false)} />}
-      {showChannels && <LocationChannels onClose={() => setShowChannels(false)} />}
-      {showNetwork && <NetworkPeople onClose={() => setShowNetwork(false)} />}
+      {showChannels && <LocationChannels onClose={() => setShowChannels(false)} showToast={showToast} />}
+      {showNetwork && <NetworkPeople onClose={() => setShowNetwork(false)} showToast={showToast} />}
+
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          duration={toast.duration}
+          onClose={() => hideToast(toast.id)}
+        />
+      ))}
     </div>
   )
 }

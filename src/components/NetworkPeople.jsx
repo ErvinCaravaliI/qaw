@@ -1,6 +1,14 @@
 import './NetworkPeople.css'
 
-const NetworkPeople = ({ onClose }) => {
+const NetworkPeople = ({ onClose, showToast }) => {
+  const handleAddPeer = (username) => {
+    showToast && showToast(`Conectado con ${username}`, 'success')
+  }
+
+  const handleNetworkSettings = () => {
+    showToast && showToast('Abriendo configuración...', 'success', 2000)
+  }
+
   const peers = [
     { id: 1, username: '@anon9681', avatar: '👨‍🦳', lastSeen: '~15 m', status: 'online' },
     { id: 2, username: '@anon9681', avatar: '👩‍🦰', lastSeen: '~15 m', status: 'online' },
@@ -46,7 +54,7 @@ const NetworkPeople = ({ onClose }) => {
                     <span className="peer-status">{peer.lastSeen}</span>
                   </div>
                 </div>
-                <button className="peer-action">
+                <button className="peer-action" onClick={() => handleAddPeer(peer.username)}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d="M12 8v8M8 12h8" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>
                   </svg>
@@ -65,7 +73,7 @@ const NetworkPeople = ({ onClose }) => {
         </div>
 
         <div className="network-footer">
-          <button className="network-settings">
+          <button className="network-settings" onClick={handleNetworkSettings}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="3" stroke="var(--text-secondary)" strokeWidth="2"/>
               <path d="M12 1v6m0 6v10M23 12h-6m-4 0H1" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round"/>

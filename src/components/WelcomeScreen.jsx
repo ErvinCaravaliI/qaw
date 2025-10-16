@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
 import './WelcomeScreen.css'
 
-const WelcomeScreen = ({ onNext }) => {
+const WelcomeScreen = ({ onNext, showToast }) => {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     setIsVisible(true)
   }, [])
+
+  const handleStart = () => {
+    showToast && showToast('Iniciando configuración...', 'success', 2000)
+    onNext()
+  }
 
   return (
     <div className={`welcome-screen ${isVisible ? 'visible' : ''}`}>
@@ -144,9 +149,9 @@ const WelcomeScreen = ({ onNext }) => {
 
         <button
           className="continue-btn"
-          onClick={onNext}
+          onClick={handleStart}
           autoFocus
-          onKeyDown={(e) => e.key === 'Enter' && onNext()}
+          onKeyDown={(e) => e.key === 'Enter' && handleStart()}
         >
           <span>Comenzar</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">

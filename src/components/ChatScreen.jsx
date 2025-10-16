@@ -7,7 +7,7 @@ import OnlineUsers from './OnlineUsers'
 import BlockedContact from './BlockedContact'
 import { mockUsers, mockMessages, generateRandomReply } from '../utils/mockData'
 
-const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
+const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork, showToast }) => {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState(mockMessages)
   const [contacts, setContacts] = useState(mockUsers)
@@ -28,8 +28,8 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
       }
       setMessages(prev => [...prev, newMessage])
       setMessage('')
-      
-      // Simulate reply after a short delay
+      showToast && showToast('Mensaje enviado', 'success', 2000)
+
       setTimeout(() => {
         const reply = {
           id: messages.length + 2,
@@ -48,7 +48,8 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
 
   const handleClearMessages = () => {
     setShowClearMessages(false)
-    console.log('Messages cleared')
+    setMessages([])
+    showToast && showToast('Mensajes eliminados', 'success')
   }
 
   const handleBlockContact = () => {
@@ -56,15 +57,16 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
     setShowFavoriteContact(false)
     setShowOnlineUsers(false)
     setShowBlockedContact(true)
+    showToast && showToast('Contacto bloqueado', 'warning')
   }
 
   const handleUnblockContact = () => {
     setShowBlockedContact(false)
-    console.log('Contact unblocked')
+    showToast && showToast('Contacto desbloqueado', 'success')
   }
 
   const handleFavoriteContact = () => {
-    console.log('Contact marked as favorite')
+    showToast && showToast('Agregado a favoritos', 'success')
   }
 
 return (
@@ -156,6 +158,7 @@ return (
         contactName={selectedContact}
         onBlock={handleBlockContact}
         onClose={() => setShowContactActions(false)}
+        showToast={showToast}
       />
     )}
 

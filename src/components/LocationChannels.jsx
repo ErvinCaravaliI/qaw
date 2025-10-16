@@ -1,6 +1,15 @@
+import { useState } from 'react'
 import './LocationChannels.css'
 
-const LocationChannels = ({ onClose }) => {
+const LocationChannels = ({ onClose, showToast }) => {
+  const [activeChannels, setActiveChannels] = useState(['mesh'])
+  const handleJoinChannel = (channelName) => {
+    if (!activeChannels.includes(channelName)) {
+      setActiveChannels([...activeChannels, channelName])
+      showToast && showToast(`Te uniste a #${channelName}`, 'success')
+    }
+  }
+
   const channels = [
     {
       id: 1,
@@ -8,8 +17,7 @@ const LocationChannels = ({ onClose }) => {
       type: 'mesh',
       count: 0,
       range: '~5-20 m',
-      icon: '✓',
-      active: true
+      icon: '✓'
     },
     {
       id: 2,
@@ -105,7 +113,7 @@ const LocationChannels = ({ onClose }) => {
                 </div>
 
                 <div className="channel-actions">
-                  {channel.active ? (
+                  {activeChannels.includes(channel.name) ? (
                     <div className="active-indicator">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
@@ -113,7 +121,7 @@ const LocationChannels = ({ onClose }) => {
                       </svg>
                     </div>
                   ) : (
-                    <button className="join-btn">
+                    <button className="join-btn" onClick={() => handleJoinChannel(channel.name)}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="var(--text-secondary)"/>
                       </svg>

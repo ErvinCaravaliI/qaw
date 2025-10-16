@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './PermissionModal.css'
 
-const NotificationPermission = ({ onNext }) => {
+const NotificationPermission = ({ onNext, showToast }) => {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -9,12 +9,14 @@ const NotificationPermission = ({ onNext }) => {
   }, [])
 
   const handleAllow = () => {
+    showToast && showToast('Notificaciones activadas', 'success')
     setTimeout(() => {
       onNext()
     }, 300)
   }
 
   const handleDeny = () => {
+    showToast && showToast('Notificaciones desactivadas', 'warning')
     setTimeout(() => {
       onNext()
     }, 300)

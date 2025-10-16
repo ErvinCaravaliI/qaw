@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './BluetoothSetup.css'
 
-const BluetoothSetup = ({ onNext }) => {
+const BluetoothSetup = ({ onNext, showToast }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
 
@@ -11,8 +11,7 @@ const BluetoothSetup = ({ onNext }) => {
 
   const handleEnable = () => {
     setIsEnabled(true)
-    // advance to next step after enabling to keep the flow moving
-    // only advance automatically if the user didn't manually skip
+    showToast && showToast('Bluetooth activado correctamente', 'success')
     setTimeout(() => {
       if (onNext && !skipRequested) onNext()
     }, 700)
@@ -22,6 +21,7 @@ const BluetoothSetup = ({ onNext }) => {
 
   const handleSkip = () => {
     setSkipRequested(true)
+    showToast && showToast('Configuración omitida', 'warning', 2000)
     if (onNext) onNext()
   }
 

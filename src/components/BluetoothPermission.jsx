@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './PermissionModal.css'
 
-const BluetoothPermission = ({ onNext }) => {
+const BluetoothPermission = ({ onNext, showToast }) => {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -9,12 +9,14 @@ const BluetoothPermission = ({ onNext }) => {
   }, [])
 
   const handleAllow = () => {
+    showToast && showToast('Bluetooth permitido', 'success')
     setTimeout(() => {
       onNext()
     }, 300)
   }
 
   const handleDeny = () => {
+    showToast && showToast('Bluetooth denegado', 'warning')
     setTimeout(() => {
       onNext()
     }, 300)

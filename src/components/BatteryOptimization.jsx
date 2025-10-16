@@ -1,18 +1,20 @@
 import { useState } from 'react'
 import './BatteryOptimization.css'
 
-const BatteryOptimization = ({ onNext }) => {
+const BatteryOptimization = ({ onNext, showToast }) => {
   const [isVisible, setIsVisible] = useState(true)
 
   const handleDisable = () => {
+    showToast && showToast('Optimización de batería desactivada', 'success')
     onNext()
   }
 
   const handleCheckAgain = () => {
-    console.log('Checking battery optimization...')
+    showToast && showToast('Verificando configuración...', 'success', 2000)
   }
 
   const handleSkip = () => {
+    showToast && showToast('Paso omitido', 'warning', 2000)
     onNext()
   }
 
