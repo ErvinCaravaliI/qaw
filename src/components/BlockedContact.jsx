@@ -1,46 +1,31 @@
 import './BlockedContact.css'
 
 const BlockedContact = ({ contactName, onUnblock, onClose }) => {
+  const handleUnblock = () => {
+    onUnblock()
+    onClose()
+  }
+
   return (
     <div className="blocked-contact-overlay" onClick={onClose}>
-      <div className="blocked-contact-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="blocked-header">
-          <button className="unblock-action-btn" onClick={onUnblock}>
-            Desbloquear
-          </button>
-
-          <div className="blocked-info-bubble">
-            <span className="blocked-label">Contacto Bloqueado</span>
-            <div className="blocked-name-badge">{contactName}</div>
-          </div>
-
-          <div className="blocked-secondary-actions">
-            <button className="blocked-action-btn" onClick={() => {}}>
-              Usuarios Online (w)
-            </button>
-            <button className="blocked-action-btn" onClick={() => {}}>
-              Favorito
-            </button>
-            <button className="blocked-action-btn disabled-btn">
-              Bloquear
-            </button>
-          </div>
+      <div className="blocked-contact-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="blocked-dialog-header">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" className="blocked-icon-large">
+            <circle cx="12" cy="12" r="10" stroke="#EF4444" strokeWidth="2" fill="none"/>
+            <path d="M4.93 4.93l14.14 14.14" stroke="#EF4444" strokeWidth="2"/>
+          </svg>
+          <h3 className="blocked-dialog-title">Contacto bloqueado</h3>
+          <p className="blocked-dialog-text">
+            <strong>{contactName}</strong> está bloqueado. No podrás recibir mensajes de este usuario.
+          </p>
         </div>
 
-        <div className="blocked-buttons">
-          <button className="blocked-icon-btn file-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" fill="none"/>
-              <path d="M8 4V2M16 4V2M4 10h16" stroke="currentColor" strokeWidth="2"/>
-            </svg>
+        <div className="blocked-dialog-actions">
+          <button className="blocked-dialog-btn secondary" onClick={onClose}>
+            Cerrar
           </button>
-
-          <button className="blocked-icon-btn menu-btn-blocked">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="6" r="1.5" fill="currentColor"/>
-              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-              <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
-            </svg>
+          <button className="blocked-dialog-btn unblock" onClick={handleUnblock}>
+            Desbloquear
           </button>
         </div>
       </div>

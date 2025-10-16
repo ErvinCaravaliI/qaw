@@ -1,123 +1,152 @@
 .contact-actions-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
   animation: fadeIn 0.2s ease;
 }
 
-.contact-actions-modal {
-  background: var(--bg-primary);
-  border-radius: 24px;
-  padding: 40px 32px;
+.contact-actions-sheet {
+  background: var(--bg-secondary);
+  border-radius: 20px 20px 0 0;
   width: 100%;
-  max-width: 380px;
-  animation: slideUp 0.3s ease;
+  max-width: 500px;
+  animation: slideUpSheet 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.contact-actions-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 40px;
+.sheet-header {
+  padding: 12px 20px 16px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.contact-bubble {
-  background: white;
-  border-radius: 32px;
-  padding: 16px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  position: relative;
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  margin: 0 auto 12px;
+  opacity: 0.5;
 }
 
-.contact-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: white;
-}
-
-.contact-label {
-  font-size: 14px;
-  color: #1a1a1a;
-  font-weight: 500;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.contact-name-badge {
-  background: #1a1a1a;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-family: 'Courier New', monospace;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.action-option {
-  background: white;
-  color: #1a1a1a;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 24px;
+.sheet-title {
   font-size: 16px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.action-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.sheet-content {
+  padding: 8px 0;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.icon-btn {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+.action-item {
+  width: 100%;
+  background: transparent;
   border: none;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   cursor: pointer;
+  transition: background 0.2s ease;
+  text-align: left;
+}
+
+.action-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.action-item:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 255, 127, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  color: var(--accent-primary);
+  flex-shrink: 0;
 }
 
-.file-btn {
-  background: var(--accent-primary);
-  color: var(--bg-primary);
+.action-icon.danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
 }
 
-.file-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(0, 255, 127, 0.3);
+.action-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.menu-btn-action {
-  background: #6366F1;
-  color: white;
+.action-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.menu-btn-action:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+.action-item.danger .action-title {
+  color: #EF4444;
+}
+
+.action-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 8px 20px;
+}
+
+.sheet-cancel {
+  width: 100%;
+  background: var(--bg-primary);
+  border: none;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border-top: 1px solid var(--border-color);
+}
+
+.sheet-cancel:hover {
+  opacity: 0.8;
+}
+
+@keyframes slideUpSheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

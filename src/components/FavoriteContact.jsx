@@ -1,38 +1,31 @@
 import './FavoriteContact.css'
 
 const FavoriteContact = ({ contactName, onAdd, onFavorite, onBlock, onClose }) => {
+  const handleAddFavorite = () => {
+    onFavorite()
+    onClose()
+  }
+
   return (
     <div className="favorite-contact-overlay" onClick={onClose}>
-      <div className="favorite-contact-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="favorite-header">
-          <div className="favorite-bubble">
-            <span className="favorite-label">Agregar</span>
-            <div className="favorite-name-badge">{contactName}</div>
-          </div>
-          <div className="favorite-actions">
-            <button className="favorite-action-btn" onClick={onFavorite}>
-              Favorito
-            </button>
-            <button className="favorite-action-btn" onClick={onBlock}>
-              Bloquear
-            </button>
-          </div>
+      <div className="favorite-contact-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="favorite-dialog-header">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" className="favorite-icon-large">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  fill="var(--accent-primary)"/>
+          </svg>
+          <h3 className="favorite-dialog-title">Agregar a favoritos</h3>
+          <p className="favorite-dialog-text">
+            ¿Deseas agregar a <strong>{contactName}</strong> a tus contactos favoritos?
+          </p>
         </div>
 
-        <div className="favorite-buttons">
-          <button className="favorite-icon-btn file-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" fill="none"/>
-              <path d="M8 4V2M16 4V2M4 10h16" stroke="currentColor" strokeWidth="2"/>
-            </svg>
+        <div className="favorite-dialog-actions">
+          <button className="favorite-dialog-btn secondary" onClick={onClose}>
+            Cancelar
           </button>
-
-          <button className="favorite-icon-btn menu-btn-fav">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="6" r="1.5" fill="currentColor"/>
-              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-              <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
-            </svg>
+          <button className="favorite-dialog-btn primary" onClick={handleAddFavorite}>
+            Agregar
           </button>
         </div>
       </div>

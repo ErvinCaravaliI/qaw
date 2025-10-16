@@ -75,6 +75,13 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
             </svg>
             <span className="peer-count">0</span>
           </button>
+          <button className="header-btn menu-dots-btn" onClick={() => setShowContactActions(true)}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="6" r="2" fill="var(--text-secondary)"/>
+              <circle cx="12" cy="12" r="2" fill="var(--text-secondary)"/>
+              <circle cx="12" cy="18" r="2" fill="var(--text-secondary)"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -87,13 +94,6 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
         ))}
       </div>
 
-      <div className="demo-menu">
-        <button className="demo-btn" onClick={handleAddAttachment}>Contacto</button>
-        <button className="demo-btn" onClick={() => setShowFavoriteContact(true)}>Favorito</button>
-        <button className="demo-btn" onClick={() => setShowOnlineUsers(true)}>Online</button>
-        <button className="demo-btn" onClick={() => setShowBlockedContact(true)}>Bloqueado</button>
-        <button className="demo-btn" onClick={() => setShowClearMessages(true)}>Limpiar</button>
-      </div>
 
       <div className="chat-input-container">
         <div className="input-wrapper">
