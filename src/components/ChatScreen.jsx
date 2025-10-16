@@ -70,6 +70,12 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             onFocus={onOpenCommands}
+            onKeyDown={(e) => {
+              if (e.key === '/') {
+                e.preventDefault()
+                onOpenCommands()
+              }
+            }}
           />
 
           <button className="send-btn" onClick={handleSendMessage}>

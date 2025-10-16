@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './BluetoothSetup.css'
 
-const BluetoothSetup = () => {
+const BluetoothSetup = ({ onNext }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
 
@@ -11,6 +11,18 @@ const BluetoothSetup = () => {
 
   const handleEnable = () => {
     setIsEnabled(true)
+    // advance to next step after enabling to keep the flow moving
+    // only advance automatically if the user didn't manually skip
+    setTimeout(() => {
+      if (onNext && !skipRequested) onNext()
+    }, 700)
+  }
+
+  const [skipRequested, setSkipRequested] = useState(false)
+
+  const handleSkip = () => {
+    setSkipRequested(true)
+    if (onNext) onNext()
   }
 
   return (
@@ -196,15 +208,21 @@ const BluetoothSetup = () => {
         </div>
 
         {!isEnabled ? (
-          <button className="enable-btn" onClick={handleEnable}>
-            <span>Activar Bluetooth</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
+          <>
+            <button className="enable-btn" onClick={handleEnable}>
+              <span>Activar Bluetooth</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+
+            <button className="skip-btn secondary" onClick={handleSkip}>
+              Omitir
+            </button>
+          </>
         ) : (
           <div className="success-message">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

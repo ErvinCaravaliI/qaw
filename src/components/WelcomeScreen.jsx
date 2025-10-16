@@ -142,7 +142,12 @@ const WelcomeScreen = ({ onNext }) => {
           </div>
         </div>
 
-        <button className="continue-btn" onClick={onNext}>
+        <button
+          className="continue-btn"
+          onClick={onNext}
+          autoFocus
+          onKeyDown={(e) => e.key === 'Enter' && onNext()}
+        >
           <span>Comenzar</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M5 12h14M12 5l7 7-7 7"

@@ -12,7 +12,7 @@ import LocationChannels from './components/LocationChannels'
 import NetworkPeople from './components/NetworkPeople'
 
 function App() {
-  const [currentStep, setCurrentStep] = useState(5)
+  const [currentStep, setCurrentStep] = useState(0)
   const [showCommands, setShowCommands] = useState(false)
   const [showChannels, setShowChannels] = useState(false)
   const [showNetwork, setShowNetwork] = useState(false)
@@ -33,16 +33,32 @@ function App() {
     }
   }
 
+  const handlePrev = () => {
+    if (currentStep > 0) setCurrentStep(currentStep - 1)
+  }
+
   const CurrentComponent = steps[currentStep].component
 
   return (
     <div className="app">
-      <CurrentComponent
-        onNext={handleNext}
-        onOpenCommands={() => setShowCommands(true)}
-        onOpenChannels={() => setShowChannels(true)}
-        onOpenNetwork={() => setShowNetwork(true)}
-      />
+      <div className="app-shell">
+        <header className="app-header">
+          <button className="back-btn" onClick={handlePrev} disabled={currentStep === 0}>
+            ← Atrás
+          </button>
+          <div className="step-indicator">Paso {currentStep + 1} / {steps.length}</div>
+        </header>
+
+        <main className="app-main">
+          <CurrentComponent
+            onNext={handleNext}
+            onPrev={handlePrev}
+            onOpenCommands={() => setShowCommands(true)}
+            onOpenChannels={() => setShowChannels(true)}
+            onOpenNetwork={() => setShowNetwork(true)}
+          />
+        </main>
+      </div>
 
       {showCommands && <CommandsHelp onClose={() => setShowCommands(false)} />}
       {showChannels && <LocationChannels onClose={() => setShowChannels(false)} />}
