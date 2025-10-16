@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import './ChatScreen.css'
+import ClearMessages from './ClearMessages'
+import ContactActions from './ContactActions'
+import FavoriteContact from './FavoriteContact'
+import OnlineUsers from './OnlineUsers'
+import BlockedContact from './BlockedContact'
 
 const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
   const [message, setMessage] = useState('')
@@ -11,6 +16,12 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
       isSystem: true
     }
   ])
+  const [showClearMessages, setShowClearMessages] = useState(false)
+  const [showContactActions, setShowContactActions] = useState(false)
+  const [showFavoriteContact, setShowFavoriteContact] = useState(false)
+  const [showOnlineUsers, setShowOnlineUsers] = useState(false)
+  const [showBlockedContact, setShowBlockedContact] = useState(false)
+  const [selectedContact, setSelectedContact] = useState('anon64')
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -20,10 +31,32 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
   }
 
   const handleAddAttachment = () => {
-    console.log('Add attachment')
+    setShowContactActions(true)
+  }
+
+  const handleClearMessages = () => {
+    setShowClearMessages(false)
+    console.log('Messages cleared')
+  }
+
+  const handleBlockContact = () => {
+    setShowContactActions(false)
+    setShowFavoriteContact(false)
+    setShowOnlineUsers(false)
+    setShowBlockedContact(true)
+  }
+
+  const handleUnblockContact = () => {
+    setShowBlockedContact(false)
+    console.log('Contact unblocked')
+  }
+
+  const handleFavoriteContact = () => {
+    console.log('Contact marked as favorite')
   }
 
   return (
+    <>
     <div className="chat-screen">
       <div className="chat-header">
         <div className="header-left">
@@ -52,6 +85,14 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
             <span className="message-time">[{msg.time}]</span>
           </div>
         ))}
+      </div>
+
+      <div className="demo-menu">
+        <button className="demo-btn" onClick={handleAddAttachment}>Contacto</button>
+        <button className="demo-btn" onClick={() => setShowFavoriteContact(true)}>Favorito</button>
+        <button className="demo-btn" onClick={() => setShowOnlineUsers(true)}>Online</button>
+        <button className="demo-btn" onClick={() => setShowBlockedContact(true)}>Bloqueado</button>
+        <button className="demo-btn" onClick={() => setShowClearMessages(true)}>Limpiar</button>
       </div>
 
       <div className="chat-input-container">
@@ -90,6 +131,49 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
         </div>
       </div>
     </div>
+
+    {showClearMessages && (
+      <ClearMessages
+        onConfirm={handleClearMessages}
+        onCancel={() => setShowClearMessages(false)}
+      />
+    )}
+
+    {showContactActions && (
+      <ContactActions
+        contactName={selectedContact}
+        onBlock={handleBlockContact}
+        onClose={() => setShowContactActions(false)}
+      />
+    )}
+
+    {showFavoriteContact && (
+      <FavoriteContact
+        contactName={selectedContact}
+        onAdd={() => console.log('Added')}
+        onFavorite={handleFavoriteContact}
+        onBlock={handleBlockContact}
+        onClose={() => setShowFavoriteContact(false)}
+      />
+    )}
+
+    {showOnlineUsers && (
+      <OnlineUsers
+        onUserSelect={(user) => setSelectedContact(user)}
+        onFavorite={handleFavoriteContact}
+        onBlock={handleBlockContact}
+        onClose={() => setShowOnlineUsers(false)}
+      />
+    )}
+
+    {showBlockedContact && (
+      <BlockedContact
+        contactName={selectedContact}
+        onUnblock={handleUnblockContact}
+        onClose={() => setShowBlockedContact(false)}
+      />
+    )}
+    </>
   )
 }
 
