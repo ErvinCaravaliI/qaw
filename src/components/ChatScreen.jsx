@@ -1,21 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './ChatScreen.css'
 import ClearMessages from './ClearMessages'
 import ContactActions from './ContactActions'
 import FavoriteContact from './FavoriteContact'
 import OnlineUsers from './OnlineUsers'
 import BlockedContact from './BlockedContact'
+import { mockUsers, mockMessages, generateRandomReply } from '../utils/mockData'
 
 const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
   const [message, setMessage] = useState('')
-  const [messages] = useState([
-    {
-      id: 1,
-      text: 'get people around you to download bitchat and chat with them here!',
-      time: '11:50:39',
-      isSystem: true
-    }
-  ])
+  const [messages, setMessages] = useState(mockMessages)
+  const [contacts, setContacts] = useState(mockUsers)
   const [showClearMessages, setShowClearMessages] = useState(false)
   const [showContactActions, setShowContactActions] = useState(false)
   const [showFavoriteContact, setShowFavoriteContact] = useState(false)
@@ -25,8 +20,25 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      console.log('Sending message:', message)
+      const newMessage = {
+        id: messages.length + 1,
+        text: message.trim(),
+        time: new Date().toLocaleTimeString(),
+        sender: 'me'
+      }
+      setMessages(prev => [...prev, newMessage])
       setMessage('')
+      
+      // Simulate reply after a short delay
+      setTimeout(() => {
+        const reply = {
+          id: messages.length + 2,
+          text: generateRandomReply(),
+          time: new Date().toLocaleTimeString(),
+          sender: selectedContact
+        }
+        setMessages(prev => [...prev, reply])
+      }, 1000)
     }
   }
 
@@ -55,7 +67,7 @@ const ChatScreen = ({ onOpenCommands, onOpenChannels, onOpenNetwork }) => {
     console.log('Contact marked as favorite')
   }
 
-  return (
+return (
     <>
     <div className="chat-screen">
       <div className="chat-header">
